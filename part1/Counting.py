@@ -18,6 +18,7 @@ a.txt 3
 b.txt 2
 c.jpg 2
 '''
+import operator
 
 def get_file_name(str):
     '''
@@ -40,13 +41,19 @@ def count_the_files(urls):
         dct[file]=dct.get(file,0)+1
     return dct
 
-def get_top_3_file(dct):
+def get_top_3_file(dct,n=3):
     '''
     從統計的dct中取得出現次數前三筆的檔案字串
     :param dct:
     :return list:
     '''
-    pass
+    lst=[]
+
+    for i in range(n):
+        key=max(dct.items(), key=operator.itemgetter(1))[0]
+        lst.append('{} {}'.format(key,dct[key]))
+        del dct[key]
+    return lst
 
 if __name__=='__main__':
     urls = [
@@ -60,7 +67,7 @@ if __name__=='__main__':
         "http://gliacloud.com/haha.png",
     ]
     dct=count_the_files(urls)
-    lst=get_file_name(dct)
+    lst=get_top_3_file(dct)
     for l in lst:
         print(l)
 
