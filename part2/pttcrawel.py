@@ -12,7 +12,9 @@ from bs4 import BeautifulSoup
 
 def ptt_crawel(board):
     #所要擷取的網站網址
-    url = 'https://www.ptt.cc/bbs/{}/index.html'.format(board)
+    base_url='https://www.ptt.cc/bbs/{}'.format(board)
+    url = base_url+'/index.html'
+    print(url)
     #建立回應
     response = requests.get(url,cookies={'over18': '1'})
 
@@ -25,15 +27,16 @@ def ptt_crawel(board):
     #寫入檔案中
     with open(filename,'w') as f:
         f.write('看板名稱:'+board+'\n')
-        f.write('日期 作者 標題 \n')
+        f.write('日期 作者 標題 內文 \n')
         for article in articles:
             #去除掉冒號和左右的空白
             title = article.find('div','title').getText().replace(':','').strip()
             author = article.find('div','author').getText().replace(':','').strip()
             date = article.find('div','date').getText().replace(':','').strip()
+            href = article.find('a',href=True).get('href')
 
-            print(date,author,title)
-            f.write('{} {} {} \n'.format(date,author,title))
+            print(date,author,title,href)
+            f.write('{} {} {} {}{} \n'.format(date,author,title,base_url,href))
 
 if __name__=='__main__':
     ptt_crawel('Gossiping')
