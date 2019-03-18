@@ -26,6 +26,9 @@ def integrate(fun, start, end):
     while intercept < end:
         intercept += step
         #your work here
+        #把曲線面積視為長方形，高為fun(x)，寬為step，area=sum(所有長方形面積)
+        #當step越小時，得到的結果越精確。
+        area+=fun(intercept)*step
     return area
 
 if __name__=='__main__':
