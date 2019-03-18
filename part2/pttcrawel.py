@@ -12,8 +12,8 @@ from bs4 import BeautifulSoup
 
 def ptt_crawel(board):
     #所要擷取的網站網址
-    base_url='https://www.ptt.cc/bbs/{}'.format(board)
-    url = base_url+'/index.html'
+    base_url='https://www.ptt.cc/'
+    url = base_url+'bbs/{}/index.html'.format(board)
     print(url)
     #建立回應
     response = requests.get(url,cookies={'over18': '1'})
@@ -33,7 +33,7 @@ def ptt_crawel(board):
             title = article.find('div','title').getText().replace(':','').strip()
             author = article.find('div','author').getText().replace(':','').strip()
             date = article.find('div','date').getText().replace(':','').strip()
-            href = article.find('a',href=True).get('href')
+            href = article.find('a').get('href')
 
             print(date,author,title,href)
             f.write('{} {} {} {}{} \n'.format(date,author,title,base_url,href))
