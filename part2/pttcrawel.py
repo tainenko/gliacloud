@@ -7,3 +7,33 @@ a) 請用 Python 寫出一個可以爬 ptt /reddit 任意看板（https://www.pt
 • 內文
 • 看板名稱
 '''
+import requests
+from bs4 import BeautifulSoup
+
+def ptt_crawel(board):
+    #所要擷取的網站網址
+    url = 'https://www.ptt.cc/bbs/{}/index.html'.format(board)
+    #建立回應
+    response = requests.get(url,cookies={'over18': '1'})
+
+    #將原始碼做整理
+    soup = BeautifulSoup(response.text, 'lxml')
+    #使用find_all()找尋特定目標
+    articles = soup.find_all('div', 'r-ent')
+
+    filename=board+'.txt'
+    #寫入檔案中
+    with open(filename,'w') as f:
+        f.write('看板名稱:'+board+'\n')
+        f.write('日期 作者 標題 \n')
+        for article in articles:
+            #去除掉冒號和左右的空白
+            title = article.find('div','title').getText().replace(':','').strip()
+            author = article.find('div','author').getText().replace(':','').strip()
+            date = article.find('div','date').getText().replace(':','').strip()
+
+            print(date,author,title)
+            f.write('{} {} {} \n'.format(date,author,title))
+
+if __name__=='__main__':
+    ptt_crawel('Gossiping')
