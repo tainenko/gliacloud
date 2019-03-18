@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from zen import views as zen_views
 
 urlpatterns = [
+    path('zen/',zen_views.index),
     path('admin/', admin.site.urls),
 ]
