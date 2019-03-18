@@ -8,6 +8,7 @@ requests = "*"
 "bs4" = "*"
 lxml = "*"
 django = "*"
+pytest = "*"
 
 [dev-packages]
 
