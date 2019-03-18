@@ -25,7 +25,8 @@ def get_file_name(str):
     :param str:
     :return filename:
     '''
-    pass
+    return str.split('/')[-1]
+
 
 def count_the_files(urls):
     '''
@@ -33,7 +34,11 @@ def count_the_files(urls):
     :param urls:
     :return dict:
     '''
-    pass
+    dct={}
+    for url in urls:
+        file=get_file_name(url)
+        dct[file]=dct.get(file,0)+1
+    return dct
 
 def get_top_3_file(dct):
     '''
